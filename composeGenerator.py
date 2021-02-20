@@ -16,7 +16,7 @@ csv_file_path = '/<Absolute_Path>/csvfile.csv'
 #csv_file_path = input('Enter absolute path of CSV file: ')
 
 versionControl_url = 'https://<repo>'
-dotin_registry = 'registry/local'
+local_registry = 'registry/local'
 compose_starter = '''version: '3.7'
 services: '''
 stackNetwork = '''
@@ -31,7 +31,7 @@ volumes:
          driver_opts:
               o: bind
               type: none
-              device: /appserver/my_log'''
+              device: /apps/my_log'''
 #--------------------------------------------------------
 original_stdout = sys.stdout # Save a reference to the original standard output
 
@@ -53,7 +53,7 @@ with open(yaml_compose_file, 'w') as composefile:
         ARTIFACT: %s-%s.jar
         VCS_URL: "%s"
     image: %s/%s:%s'''
-            print(compose_service % (artifact_name, artifact_name, artifact_name, artifact_version, versionControl_url, dotin_registry, artifact_name, artifact_version))
+            print(compose_service % (artifact_name, artifact_name, artifact_name, artifact_version, versionControl_url, local_registry, artifact_name, artifact_version))
 
     sys.stdout = original_stdout
 #-----------------------------------------------------------
@@ -114,7 +114,7 @@ with open(yaml_stack_file, 'w') as stackfile:
             constraints:
                 - node.labels.my == microservices'''
             
-            naming_server_service = '''
+            microservice5_service = '''
      my-microservice5:
        image: %s/microservice5:%s
        hostname: my-microservice5
@@ -137,7 +137,7 @@ with open(yaml_stack_file, 'w') as stackfile:
             constraints:
                 - node.labels.my == microservices'''
 
-            api_admin_service = '''
+            microservice6_service = '''
      my-microservice6:
        image: %s/microservice6:%s
        hostname: my-microservice6
@@ -161,7 +161,7 @@ with open(yaml_stack_file, 'w') as stackfile:
             constraints:
                 - node.labels.my == microservices'''
 
-            adapter_sepah_service = '''
+            microservice1_service = '''
      my-microservice1:
        image: %s/microservice1:%s
        hostname: my-microservice1
@@ -185,7 +185,7 @@ with open(yaml_stack_file, 'w') as stackfile:
             constraints:
                 - node.labels.my == microservices'''
 
-            adapter_hekmat_service = '''
+            microservice3_service = '''
      my-microservice3:
        image: %s/microservice3:%s
        hostname: my-microservice3
@@ -206,7 +206,7 @@ with open(yaml_stack_file, 'w') as stackfile:
             constraints:
                 - node.labels.my == microservices'''
 
-            adapter_mehr_service = '''
+            microservice3_service = '''
      my-microservice2:
        image: %s/microservice2:%s
        hostname: my-microservice2
@@ -227,7 +227,7 @@ with open(yaml_stack_file, 'w') as stackfile:
             constraints:
                 - node.labels.my == microservices'''
 
-            deposit_service = '''
+            microservice4_service = '''
      my-microservice4:
        image: %s/microservice4:%s
        hostname: my-microservice4
@@ -249,21 +249,21 @@ with open(yaml_stack_file, 'w') as stackfile:
                 - node.labels.my == microservices'''
 
             if artifact_name == 'api-gateway':
-                print(api_gateway_service % (dotin_registry, artifact_version))
+                print(api_gateway_service % (local_registry, artifact_version))
             elif artifact_name == 'microservice5':
-                print(naming_server_service % (dotin_registry, artifact_version))
+                print(microservice5_service % (local_registry, artifact_version))
             elif artifact_name == 'microservice6':
-                print(api_admin_service % (dotin_registry, artifact_version))
+                print(microservice6_service % (local_registry, artifact_version))
             elif artifact_name == 'microservice1':
-                print(adapter_sepah_service % (dotin_registry, artifact_version))
+                print(microservice1_service % (local_registry, artifact_version))
             elif artifact_name == 'microservice2':
-                print(adapter_mehr_service % (dotin_registry, artifact_version))
+                print(microservice3_service % (local_registry, artifact_version))
             elif artifact_name == 'microservice3':
-                print(adapter_hekmat_service % (dotin_registry, artifact_version))
+                print(microservice3_service % (local_registry, artifact_version))
             elif artifact_name == 'microservice4':
-                print(deposit_service % (dotin_registry, artifact_version))
+                print(microservice4_service % (local_registry, artifact_version))
             else:
-                print(stack_service % (service_name, dotin_registry, artifact_name, artifact_version, service_name))
+                print(stack_service % (service_name, local_registry, artifact_name, artifact_version, service_name))
 
     print(stackNetwork)
     print(stackVolumes)
